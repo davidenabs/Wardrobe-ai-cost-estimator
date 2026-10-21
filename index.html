@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wardrobe App — AI Cost Estimator</title>
+<style>
+  :root{color-scheme:light;--bg:#f5f5f7;--surface:#fff;--ink:#1d1d1f;--muted:#6e6e73;--line:#e5e5e9;--soft:#f0f0f3;--accent:#24402c}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .wrap{width:min(100% - 32px,980px);margin:0 auto;padding:36px 0 60px}
+  header{margin-bottom:24px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;color:var(--muted);font-weight:700}
+  h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.08;letter-spacing:-.045em;margin:10px 0 12px}
+  h2{font-size:1.25rem;letter-spacing:-.02em;margin:0 0 14px}
+  p{margin:8px 0;color:var(--muted)}
+  .intro{max-width:720px;font-size:1.05rem}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 4px 20px #1d1d1f05}
+  .wide{grid-column:1/-1}
+  .pill{display:inline-flex;align-items:center;border-radius:999px;background:#eaf0eb;color:var(--accent);padding:5px 10px;font-size:.78rem;font-weight:700}
+  .price{font-size:2rem;font-weight:750;letter-spacing:-.045em;margin:8px 0}
+  .sub{font-size:.88rem;color:var(--muted)}
+  .rows{display:grid;gap:12px;margin-top:18px}
+  .costrow{display:flex;gap:14px;justify-content:space-between;align-items:flex-start;border-top:1px solid var(--line);padding-top:12px}
+  .costrow strong{white-space:nowrap}
+  label{display:block;font-weight:650;margin-bottom:8px}
+  .control{margin:18px 0}
+  .rangehead{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  output{font-weight:750;font-size:1.15rem;font-variant-numeric:tabular-nums}
+  input[type=range]{width:100%;accent-color:var(--accent);margin:12px 0 4px;cursor:pointer}
+  .marks{display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem}
+  .choices{display:grid;gap:9px}
+  .choice{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:12px;padding:11px 12px;cursor:pointer}
+  .choice:has(input:checked){border-color:#8ea393;background:#f5f8f5}
+  input[type=radio],input[type=checkbox]{accent-color:var(--accent);margin-top:4px}
+  .totalbox{background:var(--ink);color:white;border-radius:18px;padding:20px;margin-top:18px}
+  .totalbox .muted{color:#c7c7cc}
+  .total{font-size:clamp(2.2rem,6vw,3.2rem);font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+  .breakdown{display:flex;justify-content:space-between;gap:12px;padding-top:12px;margin-top:12px;border-top:1px solid #ffffff2a}
+  .breakdown strong{font-variant-numeric:tabular-nums}
+  .note{font-size:.83rem;color:var(--muted)}
+  .link{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+  ul{padding-left:20px;color:var(--muted)}
+  li{margin:7px 0}
+  .btn{border:1px solid var(--line);border-radius:999px;background:white;color:var(--ink);padding:10px 14px;font:inherit;font-weight:650;cursor:pointer}
+  .btn:hover{background:var(--soft)}
+  footer{margin-top:20px;color:var(--muted);font-size:.82rem}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.card{padding:18px}.wrap{padding-top:24px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <div class="eyebrow">Wardrobe App · Product planning</div>
+    <h1>AI API cost estimator</h1>
+    <p class="intro">Estimate what background removal, virtual try-on, garment tagging and styling intelligence could cost as the app grows. Change the assumptions below to model your expected monthly usage.</p>
+  </header>
+
+  <section class="grid">
+    <article class="card">
+      <span class="pill">FASHN API</span>
+      <h2 style="margin-top:12px">Image processing</h2>
+      <div class="price">$0.075 <span class="sub">/ credit</span></div>
+      <p>Planning rate for on-demand use, based on the cited FASHN pricing page.</p>
+      <div class="rows">
+        <div class="costrow"><span>Background removal</span><strong>$0.075 / output</strong></div>
+        <div class="costrow"><span>Virtual try-on v1.6</span><strong>$0.075 / output</strong></div>
+        <div class="costrow"><span>Try-on Max · 1K Balanced</span><strong>$0.15 / output</strong></div>
+      </div>
+      <p class="note">Multiple generated outputs should be budgeted separately. Confirm current credit costs before purchase.</p>
+      <p><a class="link" href="https://help.fashn.ai/plans-and-pricing/api-pricing" target="_blank" rel="noopener">FASHN API pricing ↗</a></p>
+    </article>
+
+    <article class="card">
+      <span class="pill">OpenAI API</span>
+      <h2 style="margin-top:12px">Vision + language</h2>
+      <div class="price">Token-based</div>
+      <p>There is no single fixed price per call. Costs depend on the selected model, image detail, prompt size and response length.</p>
+      <div class="rows">
+        <div class="costrow"><span>Garment tagging</span><strong>Example: $0.00011</strong></div>
+        <div class="costrow"><span>Weekly plan</span><strong>Example: $0.00050</strong></div>
+        <div class="costrow"><span>Occasion recommendation</span><strong>Example: $0.000225</strong></div>
+      </div>
+      <p class="note">These are illustrative estimates, not guaranteed current per-call prices. Verify the exact model rates and measure actual token usage.</p>
+      <p><a class="link" href="https://developers.openai.com/api/docs/guides/images-vision" target="_blank" rel="noopener">OpenAI image and vision guide ↗</a></p>
+    </article>
+
+    <article class="card wide">
+      <h2>Monthly usage assumptions</h2>
+      <div class="grid">
+        <div>
+          <div class="control">
+            <div class="rangehead"><label for="users">Monthly active users</label><output id="usersOut">1,000</output></div>
+            <input id="users" type="range" min="100" max="20000" step="100" value="1000">
+            <div class="marks"><span>100</span><span>10,000</span><span>20,000</span></div>
+          </div>
+          <div class="control">
+            <label>New items per user per month</label>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="items" value="2"><span>2 items</span></label>
+              <label class="choice"><input type="radio" name="items" value="5" checked><span>5 items</span></label>
+              <label class="choice"><input type="radio" name="items" value="10"><span>10 items</span></label>
+            </div>
+          </div>
+          <div class="control">
+            <label>Try-on images per user per month</label>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="tryons" value="2"><span>2 images</span></label>
+              <label class="choice"><input type="radio" name="tryons" value="4" checked><span>4 images</span></label>
+              <label class="choice"><input type="radio" name="tryons" value="10"><span>10 images</span></label>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="control">
+            <label>FASHN billing assumption</label>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="tier" value="ondemand" checked><span>On-demand · $0.075 per credit</span></label>
+              <label class="choice"><input type="radio" name="tier" value="tier1"><span>Tier I · $19/month includes 282 credits; top-ups at $0.0675</span></label>
+            </div>
+          </div>
+          <div class="control">
+            <label class="choice"><input id="onboarding" type="checkbox"><span>Model initial onboarding instead: 15 new items per user this month</span></label>
+          </div>
+          <p class="note">The estimate assumes one background-removal output per new item and one credit per try-on output. Tier I includes 282 credits; any additional credits are estimated at the listed top-up rate.</p>
+        </div>
+      </div>
+
+      <div class="totalbox" aria-live="polite">
+        <div class="muted">Estimated monthly AI usage</div>
+        <div class="total" id="grandTotal">$0.00</div>
+        <div class="breakdown"><span class="muted">FASHN, including subscription if selected</span><strong id="fashnTotal">$0.00</strong></div>
+        <div class="breakdown"><span class="muted">OpenAI estimated usage</span><strong id="openaiTotal">$0.00</strong></div>
+        <div class="breakdown"><span class="muted">Estimated AI cost per active user</span><strong id="perUser">$0.00</strong></div>
+      </div>
+      <p class="note" style="margin-top:14px">Excludes hosting, database, storage, image delivery, taxes, retries, payment fees and support. OpenAI estimates use illustrative budgets: tagging $0.00011 per new item, try-on-related text allowance $0.000075 per image, four weekly plans at $0.00050 each, two occasion requests at $0.000225 each, and $0.000125 for profile parsing per user monthly.</p>
+      <button class="btn" id="reset" type="button">Reset assumptions</button>
+    </article>
+
+    <article class="card wide">
+      <h2>Example scenarios</h2>
+      <div class="grid">
+        <div>
+          <h3>New user onboarding</h3>
+          <div class="price">$1.43 <span class="sub">/ user</span></div>
+          <p>Illustrative AI cost for 15 new items, four try-on outputs, a weekly plan and two occasion requests.</p>
+        </div>
+        <div>
+          <h3>Returning user</h3>
+          <div class="price">$0.68 <span class="sub">/ user-month</span></div>
+          <p>Illustrative AI cost for five new items, four try-on outputs, four weekly plans and two occasion requests.</p>
+        </div>
+      </div>
+      <p class="note">These scenarios are planning approximations. Actual use and provider pricing should be measured during a pilot.</p>
+    </article>
+
+    <article class="card wide">
+      <h2>Cost-control recommendations</h2>
+      <ul>
+        <li>Set free-tier try-on quotas and enforce them on the backend.</li>
+        <li>Cache completed try-on results so reopening an image doesn't trigger another paid job.</li>
+        <li>Generate weekly plans once and update them only when needed.</li>
+        <li>Log actual provider costs and token usage by user and feature.</li>
+        <li>Compare FASHN quality, speed and successful-output cost before committing to a plan.</li>
+      </ul>
+    </article>
+  </section>
+  <footer>Prepared for Wardrobe App planning. Prices are estimates, not a quote. Check provider pricing pages before making purchasing decisions.</footer>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const money = n => '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const value = name => Number(document.querySelector(`input[name="${name}"]:checked`).value);
+  function calculate(){
+    const users = Number($('users').value);
+    const items = $('onboarding').checked ? 15 : value('items');
+    const tryons = value('tryons');
+    const creditsPerUser = items + tryons;
+    const tier = document.querySelector('input[name="tier"]:checked').value;
+    let fashn;
+    if(tier === 'tier1'){
+      const credits = users * creditsPerUser;
+      fashn = 19 + Math.max(0, credits - 282) * 0.0675;
+    } else {
+      fashn = users * creditsPerUser * 0.075;
+    }
+    const openaiPerUser = items * 0.00011 + tryons * 0.000075 + 4 * 0.0005 + 2 * 0.000225 + 0.000125;
+    const openai = users * openaiPerUser;
+    $('usersOut').textContent = users.toLocaleString('en-US');
+    $('fashnTotal').textContent = money(fashn);
+    $('openaiTotal').textContent = money(openai);
+    $('grandTotal').textContent = money(fashn + openai);
+    $('perUser').textContent = money(users ? (fashn + openai) / users : 0);
+  }
+  document.querySelectorAll('input').forEach(el => el.addEventListener('input', calculate));
+  $('reset').addEventListener('click', () => {
+    $('users').value = 1000;
+    document.querySelector('input[name="items"][value="5"]').checked = true;
+    document.querySelector('input[name="tryons"][value="4"]').checked = true;
+    document.querySelector('input[name="tier"][value="ondemand"]').checked = true;
+    $('onboarding').checked = false;
+    calculate();
+  });
+  calculate();
+})();
+</script>
+</body>
+</html>
